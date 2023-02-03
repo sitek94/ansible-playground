@@ -9,39 +9,7 @@
         update_cache: true
 
   tasks:
-    - name: Install zsh
+    - include_tasks: tasks/zsh.yml
       tags: zsh
-      apt: name=zsh
-
-    - name: Change shell
-      tags: zsh
-      shell: chsh -s `which zsh`
-
-    - name: Install oh-my-zsh
-      tags: zsh
-      shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-
-    - name: Install zsh-autosuggestions
-      tags: zsh
-      ansible.builtin.git:
-        repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
-        dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
-
-    - name: Update .zshrc
-      tags: zsh
-      shell: sed -i 's/(git/(git zsh-autosuggestions/' ~/.zshrc
-
-    - name: Install Node.js and npm
+    - include_tasks: tasks/node.yml
       tags: node
-      apt:
-        name: [nodejs, npm]
-
-    - name: Install n (Node.js version manager)
-      tags: node
-      npm:
-        name: n
-        global: true
-
-    - name: Install Node.js 14
-      tags: node
-      shell: n 14
